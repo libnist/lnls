@@ -1,3 +1,9 @@
+use std::path::Path;
+use std::process;
 fn main() {
-    println!("Hello, world!");
+    if let Err(error) = lnls::run(Path::new(".src/main.rs")) {
+        println!("Programm exited with the following error:\n{}", error);
+        process::exit(1);
+    }
 }
+
