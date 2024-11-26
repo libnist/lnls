@@ -1,7 +1,10 @@
 use std::path::Path;
 use std::process;
+use std::env;
 fn main() {
-    if let Err(error) = lnls::run(Path::new(".")) {
+    let paths: Vec<String> = env::args().collect();
+    let path = Path::new(&paths[1]);
+    if let Err(error) = lnls::run(path) {
         println!("Programm exited with the following error:\n{}", error);
         process::exit(1);
     }

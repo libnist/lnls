@@ -27,10 +27,11 @@ impl FileEntry {
 
     fn new(path: &Path) -> Result<FileEntry, Box<dyn Error>> {
         if let Some(file_name) = path.file_name() {
-            let modified: DateTime<Local> = DateTime::from(path.metadata()?.modified()?);
+            let metadata = path.metadata()?;
+            let modified: DateTime<Local> = DateTime::from(metadata.modified()?);
             let file_entry = FileEntry {
                 file_name: file_name.to_str().unwrap().to_string(),
-                size: path.metadata()?.len(),
+                size: metadata.len(),
                 modified_on: modified.format("%_d %b %H:%M").to_string(),
             };
             return Ok(file_entry)
@@ -82,11 +83,8 @@ impl Entry {
 /// 
 /// ```
 pub fn run(path: &Path) -> Result<(), Box<dyn Error>> {
-    if path.is_dir() {
-        directory_list(path)?
-    } else if path.is_file() {
-        Entry::new(path)?.print();
-    }
+    let entry = Entry::new(path)?;
+    entry.print();
     Ok(())
 }
 
