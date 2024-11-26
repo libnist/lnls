@@ -87,6 +87,6 @@ impl FileEntry {
     }
     /// The print method prints all the information we need from the file.
     fn print(&self) {
-        println!("{:>5}, {}, {}", self.size, self.modified_on, self.file_name);
+        println!("{:>5}\t{}\t{}", self.size, self.modified_on, self.file_name);
     }
 }
